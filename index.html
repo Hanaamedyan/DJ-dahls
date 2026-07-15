@@ -564,7 +564,7 @@
         }
 
         input::placeholder, textarea::placeholder {
-            color: #666;
+            color: #aaa;
             text-transform: uppercase;
             font-size: 0.78rem;
             letter-spacing: 0.14em;
@@ -658,11 +658,11 @@
 <nav id="nav">
     <a href="#hero" class="nav-logo">DJ DAHLS</a>
     <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#music">Music</a></li>
-        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#about">Om</a></li>
+        <li><a href="#music">Musikk</a></li>
+        <li><a href="#gallery">Galleri</a></li>
         <li><a href="#video">Video</a></li>
-        <li><a href="#bookings">Bookings</a></li>
+        <li><a href="#bookings">Booking</a></li>
     </ul>
 </nav>
 
@@ -671,12 +671,11 @@
     <div id="hero-bg"></div>
     <canvas id="particles"></canvas>
     <div class="hero-content">
-        <div class="hero-eyebrow">— The Sound of Darkness —</div>
+        <div class="hero-eyebrow">— Lyden av mørket —</div>
         <h1 class="hero-title" data-text="DJ DAHLS">DJ DAHLS</h1>
-        <p class="hero-tagline">Where the night begins</p>
-        <div class="hero-ctas">
-            <a href="#music" class="btn btn-solid">Listen Now</a>
-            <a href="#bookings" class="btn">Book a Show</a>
+<div class="hero-ctas">
+            <a href="#music" class="btn btn-solid">Hør nå</a>
+            <a href="#bookings" class="btn">Book en show</a>
         </div>
     </div>
     <div class="scroll-hint">
@@ -692,14 +691,14 @@
             <img src="artist.png" alt="DJ DAHLS">
         </div>
         <div class="about-text">
-            <div class="section-label reveal">About</div>
-            <h2 class="section-title reveal">The Artist</h2>
+            <div class="section-label reveal">Om</div>
+            <h2 class="section-title reveal">Artisten</h2>
             <div class="accent-line reveal"></div>
-            <p class="reveal">DJ DAHLS is a force in the underground music scene — a curator of dark, hypnotic sounds that blur the line between night and oblivion.</p>
-            <p class="reveal" style="transition-delay:0.1s">Known for relentless energy and a meticulous ear, every set is a journey through the depths of electronic music. From underground warehouses to open-air festivals, the name DJ DAHLS commands the dark.</p>
-            <p class="reveal" style="transition-delay:0.2s">Follow the music. Surrender to the night.</p>
+            <p class="reveal">DJ DAHLS er en kraft i undergrunnsmiljøet — en kurator av mørke, hypnotiske lyder som visker ut grensen mellom natt og glemsel.</p>
+            <p class="reveal" style="transition-delay:0.1s">Kjent for ubarmhjertig energi og et nøyaktig øre, er hvert sett en reise gjennom elektronisk musikks dypeste lag. Fra underjordiske lagerhaller til åpne festivaler — DJ DAHLS eier mørket.</p>
+            <p class="reveal" style="transition-delay:0.2s">Følg musikken. Gi deg over til natten.</p>
             <br>
-            <a href="https://soundcloud.com/djdahls" target="_blank" class="btn reveal" style="transition-delay:0.3s">Listen on SoundCloud</a>
+            <a href="https://soundcloud.com/djdahls" target="_blank" class="btn reveal" style="transition-delay:0.3s">Hør på SoundCloud</a>
         </div>
     </div>
 </section>
@@ -709,8 +708,8 @@
 <!-- MUSIC -->
 <section id="music">
     <div class="music-inner">
-        <div class="section-label reveal">Music</div>
-        <h2 class="section-title reveal">Latest Sounds</h2>
+        <div class="section-label reveal">Musikk</div>
+        <h2 class="section-title reveal">Siste spor</h2>
         <div class="eq-bars reveal" id="eq-bars"></div>
         <div class="sc-wrap reveal">
             <iframe
@@ -730,8 +729,8 @@
 <!-- GALLERY -->
 <section id="gallery">
     <div class="gallery-inner">
-        <div class="section-label reveal">Gallery</div>
-        <h2 class="section-title reveal">In The Dark</h2>
+        <div class="section-label reveal">Galleri</div>
+        <h2 class="section-title reveal">I mørket</h2>
         <div class="gallery-grid">
             <!-- Replace .gallery-placeholder divs with <img src="..." alt=""> inside .gallery-item -->
             <div class="gallery-item reveal">
@@ -780,13 +779,13 @@
 <section id="video">
     <div class="video-inner">
         <div class="section-label reveal">Video</div>
-        <h2 class="section-title reveal">Watch</h2>
+        <h2 class="section-title reveal">Se</h2>
         <div class="video-wrap reveal">
             <!-- Replace with: <video src="your-video.mp4" controls poster="your-thumbnail.jpg"></video> -->
             <!-- Or embed: <iframe src="https://www.youtube.com/embed/VIDEO_ID" ...></iframe> -->
             <div class="video-placeholder">
                 <div class="play-ring"></div>
-                <p>Video Coming Soon</p>
+                <p>Video kommer snart</p>
             </div>
         </div>
     </div>
@@ -797,18 +796,18 @@
 <!-- BOOKINGS -->
 <section id="bookings">
     <div class="bookings-inner">
-        <div class="section-label reveal">Bookings</div>
-        <h2 class="section-title reveal">Get In Touch</h2>
-        <p class="bookings-intro reveal">For booking enquiries, event collaborations, or press — reach out below. DJ DAHLS is available for club nights, festivals, private events, and more.</p>
+        <div class="section-label reveal">Booking</div>
+        <h2 class="section-title reveal">Ta kontakt</h2>
+        <p class="bookings-intro reveal">For bookingforespørsler, samarbeid eller presse — ta kontakt nedenfor. DJ DAHLS er tilgjengelig for klubbkvelder, festivaler, private arrangementer og mer.</p>
         <form class="contact-form reveal" onsubmit="handleSubmit(event)">
             <div class="form-row">
-                <input type="text" placeholder="Name" required>
-                <input type="email" placeholder="Email" required>
+                <input type="text" placeholder="Navn" required>
+                <input type="email" placeholder="E-post" required>
             </div>
-            <input type="text" placeholder="Event / Venue">
-            <input type="text" placeholder="Date">
-            <textarea placeholder="Tell us about your event..."></textarea>
-            <button type="submit" class="btn-send">Send Message</button>
+            <input type="text" placeholder="Arrangement / Sted">
+            <input type="text" placeholder="Dato">
+            <textarea placeholder="Fortell oss om arrangementet ditt..."></textarea>
+            <button type="submit" class="btn-send">Send melding</button>
         </form>
     </div>
 </section>
@@ -818,10 +817,10 @@
     <div class="footer-logo">DJ DAHLS</div>
     <ul class="footer-links">
         <li><a href="https://soundcloud.com/djdahls" target="_blank">SoundCloud</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#bookings">Contact</a></li>
+        <li><a href="#about">Om</a></li>
+        <li><a href="#bookings">Kontakt</a></li>
     </ul>
-    <div class="footer-copy">© 2026 DJ DAHLS. All rights reserved.</div>
+    <div class="footer-copy">© 2026 DJ DAHLS. Alle rettigheter forbeholdt.</div>
 </footer>
 
 <script>
@@ -903,7 +902,7 @@ function handleSubmit(e) {
     btn.style.background = '#004400';
     btn.style.borderColor = '#004400';
     setTimeout(() => {
-        btn.textContent = 'Send Message';
+        btn.textContent = 'Send melding';
         btn.style.background = '';
         btn.style.borderColor = '';
         e.target.reset();
