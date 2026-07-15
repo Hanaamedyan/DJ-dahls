@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DJ DAHLS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --red: #cc0000;
+            --dark-red: #880000;
+            --bg: #1a1a1a;
+            --text: #d8d8d8;
+            --text-dim: #888;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Barlow Condensed', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.4s, border-color 0.4s;
+        }
+
+        nav.scrolled {
+            background: rgba(6,6,6,0.96);
+            border-bottom: 1px solid #141414;
+        }
+
+        .nav-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            letter-spacing: 0.25em;
+            color: var(--red);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            opacity: 0.55;
+            transition: opacity 0.3s, color 0.3s;
+        }
+
+        .nav-links a:hover { opacity: 1; color: var(--red); }
+
+        /* ── HERO ── */
+        #hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        #hero-bg {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, #3a0a0a 0%, #1a1a1a 70%);
+        }
+
+        canvas#particles {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+
+        .hero-content { position: relative; z-index: 1; }
+
+        .hero-eyebrow {
+            font-size: 0.78rem;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 1.2rem;
+            opacity: 0;
+            animation: fadeUp 1s ease 0.5s forwards;
+        }
+
+        .hero-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(5.5rem, 17vw, 15rem);
+            line-height: 0.88;
+            letter-spacing: 0.04em;
+            color: #fff;
+            position: relative;
+            opacity: 0;
+            animation: fadeUp 1s ease 0.85s forwards;
+            user-select: none;
+        }
+
+        .hero-title::before,
+        .hero-title::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0; left: 0; right: 0;
+        }
+
+        .hero-title::before {
+            color: var(--red);
+            animation: glitch1 4s infinite;
+            clip-path: polygon(0 0, 100% 0, 100% 38%, 0 38%);
+        }
+
+        .hero-title::after {
+            color: #003366;
+            animation: glitch2 4s infinite;
+            clip-path: polygon(0 62%, 100% 62%, 100% 100%, 0 100%);
+        }
+
+        @keyframes glitch1 {
+            0%, 88%, 100% { transform: none; opacity: 0; }
+            89%  { transform: translateX(-4px) skewX(-2deg); opacity: 0.85; }
+            91%  { transform: translateX(4px) skewX(2deg);  opacity: 0.85; }
+            93%  { transform: translateX(-2px); opacity: 0.85; }
+            95%  { transform: none; opacity: 0; }
+        }
+
+        @keyframes glitch2 {
+            0%, 86%, 100% { transform: none; opacity: 0; }
+            87%  { transform: translateX(4px) skewX(2deg);  opacity: 0.85; }
+            89%  { transform: translateX(-4px) skewX(-2deg); opacity: 0.85; }
+            91%  { transform: translateX(2px); opacity: 0.85; }
+            93%  { transform: none; opacity: 0; }
+        }
+
+        .hero-tagline {
+            font-size: clamp(0.9rem, 1.8vw, 1.15rem);
+            letter-spacing: 0.38em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-top: 1.8rem;
+            opacity: 0;
+            animation: fadeUp 1s ease 1.15s forwards;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 1.2rem;
+            justify-content: center;
+            margin-top: 3rem;
+            opacity: 0;
+            animation: fadeUp 1s ease 1.4s forwards;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.85rem 2.2rem;
+            border: 1px solid var(--red);
+            color: var(--red);
+            text-decoration: none;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .btn:hover { background: var(--red); color: #fff; }
+
+        .btn-solid {
+            background: var(--red);
+            color: #fff;
+        }
+
+        .btn-solid:hover { background: var(--dark-red); border-color: var(--dark-red); }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.6rem;
+            opacity: 0;
+            animation: fadeIn 1s ease 2.2s forwards;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 44px;
+            background: linear-gradient(to bottom, var(--red), transparent);
+            animation: scrollPulse 2.2s ease infinite;
+        }
+
+        .scroll-hint span {
+            font-size: 0.6rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: #333;
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.25; transform: scaleY(0.9); }
+            50%       { opacity: 1;    transform: scaleY(1.1); }
+        }
+
+        /* ── SHARED ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to   { opacity: 1; transform: none; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(36px);
+            transition: opacity 0.85s ease, transform 0.85s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        .section-label {
+            font-size: 0.72rem;
+            letter-spacing: 0.45em;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 0.8rem;
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.8rem, 5.5vw, 4.5rem);
+            letter-spacing: 0.05em;
+            color: #fff;
+            margin-bottom: 2.5rem;
+        }
+
+        .accent-line {
+            width: 50px;
+            height: 2px;
+            background: var(--red);
+            margin-bottom: 2rem;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #2e2e2e, transparent);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ── ABOUT ── */
+        #about {
+            padding: 8rem 3rem;
+        }
+
+        .about-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-photo {
+            position: relative;
+            aspect-ratio: 3/4;
+            background: #222222;
+            overflow: hidden;
+        }
+
+        .about-photo::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(180,0,0,0.25) 0%, transparent 55%);
+            z-index: 1;
+        }
+
+        .about-photo::after {
+            content: '';
+            position: absolute;
+            left: 0; bottom: 0;
+            width: 100%; height: 40%;
+            background: linear-gradient(to top, var(--bg), transparent);
+            z-index: 1;
+        }
+
+        .about-photo img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            filter: grayscale(0.25) contrast(1.1);
+            display: block;
+        }
+
+        .about-photo-placeholder {
+            width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            flex-direction: column; gap: 1rem;
+            color: #222;
+        }
+
+        .photo-icon {
+            width: 50px; height: 50px;
+            border: 1px solid #1e1e1e;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .about-photo-placeholder span {
+            font-size: 0.68rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .about-text p {
+            color: var(--text-dim);
+            font-size: 1.05rem;
+            line-height: 1.85;
+            margin-bottom: 1.5rem;
+        }
+
+        /* ── MUSIC ── */
+        #music {
+            background: #161616;
+            padding: 8rem 3rem;
+        }
+
+        .music-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .eq-bars {
+            display: flex;
+            gap: 4px;
+            align-items: flex-end;
+            height: 36px;
+            justify-content: center;
+            margin-bottom: 3rem;
+        }
+
+        .eq-bar {
+            width: 3px;
+            background: var(--red);
+            opacity: 0.6;
+            border-radius: 1px;
+            animation: eqBounce var(--d) ease-in-out infinite alternate;
+        }
+
+        @keyframes eqBounce {
+            from { height: var(--lo); }
+            to   { height: var(--hi); }
+        }
+
+        .sc-wrap {
+            border: 1px solid #2a2a2a;
+        }
+
+        /* ── GALLERY ── */
+        #gallery {
+            padding: 8rem 3rem;
+        }
+
+        .gallery-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.6rem;
+        }
+
+        .gallery-item {
+            aspect-ratio: 1;
+            background: #222222;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gallery-item img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            filter: grayscale(0.4) brightness(0.85);
+            transition: transform 0.7s ease, filter 0.5s ease;
+            display: block;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.06);
+            filter: grayscale(0) brightness(1);
+        }
+
+        .gallery-item::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(150,0,0,0.35), transparent 50%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .gallery-item:hover::after { opacity: 1; }
+
+        .gallery-placeholder {
+            width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            flex-direction: column; gap: 0.8rem;
+            color: #1e1e1e;
+            border: 1px solid #2a2a2a;
+        }
+
+        .gallery-placeholder .ph-icon {
+            font-size: 1.4rem;
+            opacity: 0.5;
+        }
+
+        .gallery-placeholder span {
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        /* ── VIDEO ── */
+        #video {
+            background: #161616;
+            padding: 8rem 3rem;
+            text-align: center;
+        }
+
+        .video-inner { max-width: 1100px; margin: 0 auto; }
+
+        .video-wrap {
+            position: relative;
+            aspect-ratio: 16/9;
+            background: #1e1e1e;
+            border: 1px solid #2a2a2a;
+            overflow: hidden;
+        }
+
+        .video-wrap video {
+            width: 100%; height: 100%;
+            object-fit: cover;
+        }
+
+        .video-placeholder {
+            position: absolute; inset: 0;
+            display: flex; align-items: center; justify-content: center;
+            flex-direction: column; gap: 1.2rem;
+        }
+
+        .play-ring {
+            width: 72px; height: 72px;
+            border: 1.5px solid var(--red);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            animation: ringPulse 2.5s ease infinite;
+        }
+
+        .play-ring::after {
+            content: '';
+            width: 0; height: 0;
+            border-top: 11px solid transparent;
+            border-bottom: 11px solid transparent;
+            border-left: 18px solid var(--red);
+            margin-left: 5px;
+        }
+
+        @keyframes ringPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(204,0,0,0.3); }
+            50%       { box-shadow: 0 0 0 12px rgba(204,0,0,0); }
+        }
+
+        .video-placeholder p {
+            font-size: 0.7rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: #2a2a2a;
+        }
+
+        /* ── BOOKINGS ── */
+        #bookings {
+            padding: 8rem 3rem;
+        }
+
+        .bookings-inner {
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        .bookings-intro {
+            color: var(--text-dim);
+            font-size: 1.05rem;
+            line-height: 1.85;
+            margin-bottom: 3rem;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.9rem;
+        }
+
+        input, textarea, select {
+            background: #1e1e1e;
+            border: 1px solid #2e2e2e;
+            color: var(--text);
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.95rem;
+            padding: 0.9rem 1.1rem;
+            width: 100%;
+            outline: none;
+            transition: border-color 0.3s;
+            letter-spacing: 0.04em;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--red);
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: #2a2a2a;
+            text-transform: uppercase;
+            font-size: 0.78rem;
+            letter-spacing: 0.14em;
+        }
+
+        textarea { resize: none; height: 140px; }
+
+        .btn-send {
+            background: var(--red);
+            border: 1px solid var(--red);
+            color: #fff;
+            padding: 1rem 2.5rem;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.3s, border-color 0.3s;
+            align-self: flex-start;
+        }
+
+        .btn-send:hover { background: var(--dark-red); border-color: var(--dark-red); }
+
+        /* ── FOOTER ── */
+        footer {
+            background: #141414;
+            border-top: 1px solid #2a2a2a;
+            padding: 2.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem;
+            letter-spacing: 0.25em;
+            color: var(--red);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: #333;
+            text-decoration: none;
+            font-size: 0.75rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover { color: var(--red); }
+
+        .footer-copy {
+            color: #282828;
+            font-size: 0.72rem;
+            letter-spacing: 0.1em;
+        }
+
+        /* ── NOISE OVERLAY ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-size: 180px;
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 1.2rem 1.5rem; }
+            .nav-links { display: none; }
+            .about-inner { grid-template-columns: 1fr; gap: 3rem; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            section, #about, #bookings { padding: 5rem 1.5rem; }
+            footer { padding: 2rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+    <a href="#hero" class="nav-logo">DJ DAHLS</a>
+    <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#music">Music</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#video">Video</a></li>
+        <li><a href="#bookings">Bookings</a></li>
+    </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+    <div id="hero-bg"></div>
+    <canvas id="particles"></canvas>
+    <div class="hero-content">
+        <div class="hero-eyebrow">— The Sound of Darkness —</div>
+        <h1 class="hero-title" data-text="DJ DAHLS">DJ DAHLS</h1>
+        <p class="hero-tagline">Where the night begins</p>
+        <div class="hero-ctas">
+            <a href="#music" class="btn btn-solid">Listen Now</a>
+            <a href="#bookings" class="btn">Book a Show</a>
+        </div>
+    </div>
+    <div class="scroll-hint">
+        <div class="scroll-line"></div>
+        <span>Scroll</span>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+    <div class="about-inner">
+        <div class="about-photo reveal">
+            <img src="artist.png" alt="DJ DAHLS">
+        </div>
+        <div class="about-text">
+            <div class="section-label reveal">About</div>
+            <h2 class="section-title reveal">The Artist</h2>
+            <div class="accent-line reveal"></div>
+            <p class="reveal">DJ DAHLS is a force in the underground music scene — a curator of dark, hypnotic sounds that blur the line between night and oblivion.</p>
+            <p class="reveal" style="transition-delay:0.1s">Known for relentless energy and a meticulous ear, every set is a journey through the depths of electronic music. From underground warehouses to open-air festivals, the name DJ DAHLS commands the dark.</p>
+            <p class="reveal" style="transition-delay:0.2s">Follow the music. Surrender to the night.</p>
+            <br>
+            <a href="https://soundcloud.com/djdahls" target="_blank" class="btn reveal" style="transition-delay:0.3s">Listen on SoundCloud</a>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MUSIC -->
+<section id="music">
+    <div class="music-inner">
+        <div class="section-label reveal">Music</div>
+        <h2 class="section-title reveal">Latest Sounds</h2>
+        <div class="eq-bars reveal" id="eq-bars"></div>
+        <div class="sc-wrap reveal">
+            <iframe
+                width="100%"
+                height="450"
+                scrolling="no"
+                frameborder="no"
+                allow="autoplay"
+                src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/djdahls&color=%23cc0000&auto_play=false&hide_related=false&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true">
+            </iframe>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- GALLERY -->
+<section id="gallery">
+    <div class="gallery-inner">
+        <div class="section-label reveal">Gallery</div>
+        <h2 class="section-title reveal">In The Dark</h2>
+        <div class="gallery-grid">
+            <!-- Replace .gallery-placeholder divs with <img src="..." alt=""> inside .gallery-item -->
+            <div class="gallery-item reveal">
+                <div class="gallery-placeholder">
+                    <div class="ph-icon">▲</div>
+                    <span>Photo 1</span>
+                </div>
+            </div>
+            <div class="gallery-item reveal" style="transition-delay:0.08s">
+                <div class="gallery-placeholder">
+                    <div class="ph-icon">▲</div>
+                    <span>Photo 2</span>
+                </div>
+            </div>
+            <div class="gallery-item reveal" style="transition-delay:0.16s">
+                <div class="gallery-placeholder">
+                    <div class="ph-icon">▲</div>
+                    <span>Photo 3</span>
+                </div>
+            </div>
+            <div class="gallery-item reveal" style="transition-delay:0.08s">
+                <div class="gallery-placeholder">
+                    <div class="ph-icon">▲</div>
+                    <span>Photo 4</span>
+                </div>
+            </div>
+            <div class="gallery-item reveal" style="transition-delay:0.16s">
+                <div class="gallery-placeholder">
+                    <div class="ph-icon">▲</div>
+                    <span>Photo 5</span>
+                </div>
+            </div>
+            <div class="gallery-item reveal" style="transition-delay:0.24s">
+                <div class="gallery-placeholder">
+                    <div class="ph-icon">▲</div>
+                    <span>Photo 6</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- VIDEO -->
+<section id="video">
+    <div class="video-inner">
+        <div class="section-label reveal">Video</div>
+        <h2 class="section-title reveal">Watch</h2>
+        <div class="video-wrap reveal">
+            <!-- Replace with: <video src="your-video.mp4" controls poster="your-thumbnail.jpg"></video> -->
+            <!-- Or embed: <iframe src="https://www.youtube.com/embed/VIDEO_ID" ...></iframe> -->
+            <div class="video-placeholder">
+                <div class="play-ring"></div>
+                <p>Video Coming Soon</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BOOKINGS -->
+<section id="bookings">
+    <div class="bookings-inner">
+        <div class="section-label reveal">Bookings</div>
+        <h2 class="section-title reveal">Get In Touch</h2>
+        <p class="bookings-intro reveal">For booking enquiries, event collaborations, or press — reach out below. DJ DAHLS is available for club nights, festivals, private events, and more.</p>
+        <form class="contact-form reveal" onsubmit="handleSubmit(event)">
+            <div class="form-row">
+                <input type="text" placeholder="Name" required>
+                <input type="email" placeholder="Email" required>
+            </div>
+            <input type="text" placeholder="Event / Venue">
+            <input type="text" placeholder="Date">
+            <textarea placeholder="Tell us about your event..."></textarea>
+            <button type="submit" class="btn-send">Send Message</button>
+        </form>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-logo">DJ DAHLS</div>
+    <ul class="footer-links">
+        <li><a href="https://soundcloud.com/djdahls" target="_blank">SoundCloud</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#bookings">Contact</a></li>
+    </ul>
+    <div class="footer-copy">© 2026 DJ DAHLS. All rights reserved.</div>
+</footer>
+
+<script>
+// ── PARTICLES ──
+const canvas = document.getElementById('particles');
+const ctx    = canvas.getContext('2d');
+
+function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+const particles = Array.from({ length: 90 }, () => ({
+    x:       Math.random() * window.innerWidth,
+    y:       Math.random() * window.innerHeight,
+    r:       Math.random() * 1.4 + 0.2,
+    dx:      (Math.random() - 0.5) * 0.25,
+    dy:      -(Math.random() * 0.35 + 0.08),
+    opacity: Math.random() * 0.45 + 0.05,
+    life:    Math.random(),
+    maxLife: 0.7 + Math.random() * 0.3,
+}));
+
+function tick() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+        p.x    += p.dx;
+        p.y    += p.dy;
+        p.life -= 0.002;
+
+        if (p.life <= 0 || p.y < -5) {
+            p.x    = Math.random() * canvas.width;
+            p.y    = canvas.height + 5;
+            p.life = p.maxLife;
+        }
+
+        const alpha = p.opacity * (p.life / p.maxLife);
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(200,0,0,${alpha})`;
+        ctx.fill();
+    });
+    requestAnimationFrame(tick);
+}
+tick();
+
+// ── EQ BARS ──
+const eqEl = document.getElementById('eq-bars');
+for (let i = 0; i < 22; i++) {
+    const bar = document.createElement('div');
+    bar.className = 'eq-bar';
+    const lo = (Math.random() * 6 + 3).toFixed(1) + 'px';
+    const hi = (Math.random() * 28 + 8).toFixed(1) + 'px';
+    const d  = (Math.random() * 0.45 + 0.25).toFixed(2) + 's';
+    bar.style.cssText = `--lo:${lo}; --hi:${hi}; --d:${d}; height:${hi};`;
+    eqEl.appendChild(bar);
+}
+
+// ── SCROLL REVEAL ──
+const revealEls = document.querySelectorAll('.reveal');
+const revealObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+revealEls.forEach(el => revealObs.observe(el));
+
+// ── NAV SCROLL ──
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
+
+// ── FORM SUBMIT ──
+function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.btn-send');
+    btn.textContent = 'Sent ✓';
+    btn.style.background = '#004400';
+    btn.style.borderColor = '#004400';
+    setTimeout(() => {
+        btn.textContent = 'Send Message';
+        btn.style.background = '';
+        btn.style.borderColor = '';
+        e.target.reset();
+    }, 3000);
+}
+</script>
+</body>
+</html>
