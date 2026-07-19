@@ -922,12 +922,10 @@
         <div class="section-label reveal">Video</div>
         <h2 class="section-title reveal">Se</h2>
         <div class="video-wrap reveal">
-            <!-- Replace with: <video src="your-video.mp4" controls poster="your-thumbnail.jpg"></video> -->
-            <!-- Or embed: <iframe src="https://www.youtube.com/embed/VIDEO_ID" ...></iframe> -->
-            <div class="video-placeholder">
-                <div class="play-ring"></div>
-                <p>Video kommer snart</p>
-            </div>
+            <video controls playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover;">
+                <source src="dahls-video.mov" type="video/mp4">
+                <source src="dahls-video.mov" type="video/quicktime">
+            </video>
         </div>
     </div>
 </section>
